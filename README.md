@@ -4,11 +4,11 @@ This is the desktop version of the Foliage Farm web application, built with Elec
 
 ## Features
 
-- Cross-platform desktop application (Windows, macOS, Linux)
-- Integrated MongoDB database connection
-- Secure storage of sensitive data
-- Complete user authentication system
-- All features of the web version available offline
+- Cross-platform desktop application (Windows, macOS, Linux).
+- Integrated MongoDB database connection.
+- Secure storage of sensitive data.
+- Complete user authentication system.
+- All features of the web version available offline.
 
 ## Prerequisites
 
