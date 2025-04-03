@@ -96,6 +96,3 @@ If you encounter issues during the build process:
 2. Try clearing the npm cache: `npm cache clean --force`
 3. Delete the `node_modules` folder and run `npm install` again
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
