@@ -1,0 +1,37 @@
+/* Form error styles */
+.form-error {
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  padding-left: 0.5rem;
+}
+
+/* Success message styles */
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.success-message h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-emerald-700);
+}
+
+.success-message p {
+  margin-bottom: 1.5rem;
+  color: var(--color-gray-600);
+}
+
+.text-center {
+  text-align: center;
+}
+

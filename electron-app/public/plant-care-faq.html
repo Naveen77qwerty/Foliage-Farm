@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Care FAQs - Foliage Farm</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stylesp.css">
+    <link rel="stylesheet" href="animations.css">
+    <style>
+        /* FAQ-specific styles */
+        .faq-hero {
+            padding: 100px 0 50px;
+            background: linear-gradient(135deg, rgba(5, 150, 105, 0.8), rgba(4, 120, 87, 0.9)), url('https://source.unsplash.com/random/1920x1080/?plants,garden') center/cover no-repeat;
+            text-align: center;
+            color: white;
+        }
+        
+        .faq-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .faq-hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+        
+        .faq-search-container {
+            margin: 2rem auto;
+            max-width: 600px;
+            position: relative;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+        
+        .faq-search {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 30px;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-search:focus {
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-emerald-600);
+        }
+        
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.6s;
+            opacity: 0;
+        }
+        
+        .category-tab {
+            padding: 8px 20px;
+            border-radius: 30px;
+            background-color: var(--color-gray-100);
+            color: var(--color-gray-800);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .category-tab.active {
+            background-color: var(--color-emerald-500);
+            color: white;
+        }
+        
+        .category-tab:hover:not(.active) {
+            background-color: var(--color-gray-200);
+        }
+        
+        .faq-section {
+            padding: 50px 0;
+            background-color: #f8f9fa;
+        }
+        
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background-color: white;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .faq-item:nth-child(1) { animation-delay: 0.7s; }
+        .faq-item:nth-child(2) { animation-delay: 0.8s; }
+        .faq-item:nth-child(3) { animation-delay: 0.9s; }
+        .faq-item:nth-child(4) { animation-delay: 1.0s; }
+        .faq-item:nth-child(5) { animation-delay: 1.1s; }
+        .faq-item:nth-child(6) { animation-delay: 1.2s; }
+        
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--color-gray-800);
+        }
+        
+        .faq-question span {
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question .icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question {
+            color: var(--color-emerald-700);
+        }
+        
+        .faq-item.active .icon {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            transition: all 0.5s cubic-bezier(1, 0, 1, 0);
+        }
+        
+        .faq-answer-content {
+            padding: 0 20px 20px;
+            line-height: 1.6;
+            color: var(--color-gray-700);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 50px 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .no-results img {
+            max-width: 200px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .no-results h3 {
+            color: var(--color-gray-600);
+            margin-bottom: 10px;
+        }
+        
+        .no-results p {
+            color: var(--color-gray-500);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .faq-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .category-tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 15px;
+                justify-content: flex-start;
+            }
+            
+            .category-tab {
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Loader -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-circle">
+            <div class="leaf-container">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loader-leaf">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                </svg>
+            </div>
+            <div class="loader-progress"></div>
+        </div>
+        <p class="loader-text">Loading Plant Care Tips...</p>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="leaf-icon">
+                        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                    </svg>
+                    <span>Foliage Farm</span>
+                </div>
+                
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="products.html" class="nav-link">Products</a>
+                    <a href="categories.html" class="nav-link">Categories</a>
+                    
+                    <a href="devpage.html" class="nav-link">Devs</a>
+                </div>
+                <span class="welcome-text">Welcome, <span id="userName">user</span>!</span>
+                <a href="login.html" class="auth-link" id="logoutBtn">Logout</a>
+                
+                <button class="mobile-menu-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <line x1="4" y1="18" x2="20" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="faq-hero">
+        <div class="container">
+            <h1>Plant Care FAQs</h1>
+            <p>Find answers to common questions about plant care, maintenance, and troubleshooting. Our expert advice will help your plants thrive.</p>
+            
+            <div class="faq-search-container">
+                <input type="text" id="faqSearch" class="faq-search" placeholder="Search for plant care questions...">
+                <span class="search-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </span>
+            </div>
+            
+            <div class="category-tabs" id="categoryTabs">
+                <!-- Categories will be loaded dynamically via JavaScript -->
+                <button class="category-tab active" data-category="all">All FAQs</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQs Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-container" id="faqContainer">
+                <!-- FAQs will be loaded dynamically via JavaScript -->
+                <div class="loading-spinner">Loading FAQs...</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- No Results Template (initially hidden) -->
+    <template id="noResultsTemplate">
+        <div class="no-results">
+            <img src="https://source.unsplash.com/random/400x300/?plant,sad" alt="No results found">
+            <h3>No FAQs Found</h3>
+            <p>Sorry, we couldn't find any plant care questions matching your search. Try different keywords or browse our categories.</p>
+        </div>
+    </template>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="leaf-icon">
+                            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                        </svg>
+                        <span>Foliage Farm</span>
+                    </div>
+                    <p>Bringing nature closer to your home with our premium eco-friendly plants.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" class="page-transition-link">Home</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#services">Services</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="login.html" class="page-transition-link">Login</a></li>
+                        <li><a href="signuppage.html" class="page-transition-link">Sign Up</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© <span id="current-year"></span> Foliage Farm. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Page Transition Overlay -->
+    <div id="pageTransitionOverlay" class="page-transition-overlay"></div>
+
+    <script src="animations.js"></script>
+    <script src="script.js"></script>
+    <script type="module">
+        import { fetchFaqs, fetchFaqsByCategory, searchFaqs } from './faq-service.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Initialize page loader
+            initPageLoader();
+            
+            const faqContainer = document.getElementById('faqContainer');
+            const categoryTabs = document.getElementById('categoryTabs');
+            const searchInput = document.getElementById('faqSearch');
+            const noResultsTemplate = document.getElementById('noResultsTemplate');
+            
+            let allFaqs = [];
+            let categories = [];
+            let activeCategory = 'all';
+            let searchQuery = '';
+            
+            // Load FAQs and categories
+            try {
+                const data = await fetchFaqs();
+                allFaqs = data.faqs;
+                categories = data.categories;
+                
+                // Create category tabs
+                createCategoryTabs(categories);
+                
+                // Display all FAQs initially
+                displayFaqs(allFaqs);
+            } catch (error) {
+                console.error('Error loading FAQs:', error);
+                faqContainer.innerHTML = `<div class="error-message">Error loading FAQs. Please try again later.</div>`;
+            }
+            
+            // Create category tabs
+            function createCategoryTabs(categories) {
+                // Clear the container except for the "All" tab
+                const allTab = categoryTabs.querySelector('[data-category="all"]');
+                categoryTabs.innerHTML = '';
+                categoryTabs.appendChild(allTab);
+                
+                // Add category tabs
+                categories.forEach(category => {
+                    const tab = document.createElement('button');
+                    tab.className = 'category-tab';
+                    tab.setAttribute('data-category', category.id);
+                    tab.textContent = category.name;
+                    categoryTabs.appendChild(tab);
+                    
+                    // Add click event
+                    tab.addEventListener('click', () => {
+                        // Update active tab
+                        document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        
+                        // Update active category
+                        activeCategory = category.id;
+                        
+                        // Filter FAQs by category and search query
+                        filterAndDisplayFaqs();
+                    });
+                });
+                
+                // Add click event to "All" tab
+                allTab.addEventListener('click', () => {
+                    // Update active tab
+                    document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                    allTab.classList.add('active');
+                    
+                    // Update active category
+                    activeCategory = 'all';
+                    
+                    // Filter FAQs by search query only
+                    filterAndDisplayFaqs();
+                });
+            }
+            
+            // Filter and display FAQs based on category and search query
+            async function filterAndDisplayFaqs() {
+                let filteredFaqs = allFaqs;
+                
+                // Apply category filter
+                if (activeCategory !== 'all') {
+                    const categoryId = parseInt(activeCategory);
+                    const categoryData = await fetchFaqsByCategory(categoryId);
+                    filteredFaqs = categoryData.faqs;
+                }
+                
+                // Apply search filter
+                if (searchQuery) {
+                    const searchResults = await searchFaqs(searchQuery);
+                    filteredFaqs = filteredFaqs.filter(faq => 
+                        searchResults.some(result => result.id === faq.id)
+                    );
+                }
+                
+                // Display filtered FAQs
+                displayFaqs(filteredFaqs);
+            }
+            
+            // Display FAQs in the container
+            function displayFaqs(faqs) {
+                faqContainer.innerHTML = '';
+                
+                if (faqs.length === 0) {
+                    // Show no results message
+                    const noResults = document.importNode(noResultsTemplate.content, true);
+                    faqContainer.appendChild(noResults);
+                    return;
+                }
+                
+                // Add FAQ items
+                faqs.forEach(faq => {
+                    const faqItem = document.createElement('div');
+                    faqItem.className = 'faq-item';
+                    faqItem.innerHTML = `
+                        <div class="faq-question">
+                            <span>${faq.question}</span>
+                            <span class="icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                ${faq.answer}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add click event to toggle answer
+                    const question = faqItem.querySelector('.faq-question');
+                    question.addEventListener('click', () => {
+                        // Toggle active class
+                        faqItem.classList.toggle('active');
+                    });
+                    
+                    faqContainer.appendChild(faqItem);
+                });
+            }
+            
+            // Add search functionality
+            searchInput.addEventListener('input', async (e) => {
+                searchQuery = e.target.value.trim();
+                filterAndDisplayFaqs();
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indoor Plants API Test - Foliage Farm</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1 {
+      color: #065f46;
+      text-align: center;
+    }
+    h2 {
+      color: #065f46;
+      margin-top: 30px;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f0f0f0;
+    }
+    .loading {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+    }
+    .success {
+      color: #065f46;
+      font-weight: bold;
+    }
+    .error {
+      color: #b91c1c;
+      font-weight: bold;
+    }
+    .details {
+      margin-top: 10px;
+      font-size: 0.9em;
+      white-space: pre-wrap;
+    }
+    .plant-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .plant-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .plant-card:hover {
+      transform: translateY(-5px);
+    }
+    .plant-image {
+      height: 180px;
+      overflow: hidden;
+    }
+    .plant-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .plant-card:hover .plant-image img {
+      transform: scale(1.05);
+    }
+    .plant-info {
+      padding: 15px;
+    }
+    .plant-name {
+      font-weight: 600;
+      color: #065f46;
+      margin-bottom: 5px;
+    }
+    .plant-scientific {
+      font-style: italic;
+      color: #666;
+      font-size: 0.85em;
+      margin-bottom: 10px;
+    }
+    .environment {
+      display: inline-block;
+      background: #d1fae5;
+      color: #065f46;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      margin-top: 8px;
+    }
+    .btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: block;
+      margin: 20px auto;
+      font-weight: 500;
+    }
+    .btn:hover {
+      background: #059669;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      color: #065f46;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Indoor Plants API Test</h1>
+  <p>This page specifically checks if the API can return indoor plants. If successful, we'll see a list of indoor plants below.</p>
+  
+  <div id="result">
+    <div class="loading">Testing API for indoor plants...</div>
+  </div>
+  
+  <div id="plantContainer" style="display: none;">
+    <h2>Indoor Plants from API</h2>
+    <div class="plant-grid" id="plantGrid"></div>
+  </div>
+
+  <button id="retryButton" class="btn" style="display: none;">Try Again</button>
+  
+  <a href="index.html" class="back-link">Back to Homepage</a>
+
+  <script>
+    // API configuration
+    const API_KEY = 'sk-ooGA67ea26f7677fe9521';
+    const API_ENDPOINT = 'https://perenual.com/api/v2/species-list';
+    const resultDiv = document.getElementById('result');
+    const plantContainer = document.getElementById('plantContainer');
+    const plantGrid = document.getElementById('plantGrid');
+    const retryButton = document.getElementById('retryButton');
+
+    // Function to test the API with indoor plants filter
+    async function testIndoorPlantsAPI() {
+      try {
+        console.log('Testing API for indoor plants...');
+        
+        // Create the request URL with indoor filter
+        const queryParams = new URLSearchParams({
+          key: API_KEY,
+          page: 1,
+          indoor: 1, // Filter for indoor plants
+          per_page: 9 // Request 9 plants for display
+        });
+        const requestUrl = `${API_ENDPOINT}?${queryParams.toString()}`;
+        
+        console.log('Request URL:', requestUrl.replace(API_KEY, 'API_KEY_HIDDEN'));
+        
+        const response = await fetch(requestUrl);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`API request failed with status ${response.status}: ${errorText}`);
+          
+          resultDiv.innerHTML = `
+            <div class="error">API Request Failed</div>
+            <div class="details">
+              Status: ${response.status} ${response.statusText}
+              Error: ${errorText}
+              
+              The API key may have reached its daily limit or the API doesn't support filtering by indoor plants.
+              The app will use local data instead.
+            </div>
+          `;
+          retryButton.style.display = 'block';
+          return false;
+        }
+        
+        const data = await response.json();
+        
+        if (!data || !data.data || data.data.length === 0) {
+          console.error('API returned no indoor plants:', data);
+          
+          resultDiv.innerHTML = `
+            <div class="error">No Indoor Plants Found</div>
+            <div class="details">
+              The API returned zero indoor plants.
+              
+              This could mean:
+              1. The API key doesn't have access to indoor plant data
+              2. The API doesn't support the indoor filter parameter
+              3. There are no indoor plants in the database
+              
+              The app will use local data for indoor plants.
+            </div>
+          `;
+          retryButton.style.display = 'block';
+          return false;
+        }
+        
+        console.log('API returned indoor plants successfully:', {
+          total: data.total,
+          per_page: data.per_page,
+          current_page: data.current_page,
+          plants: data.data.length
+        });
+        
+        resultDiv.innerHTML = `
+          <div class="success">Indoor Plants Found!</div>
+          <div class="details">
+            API key is working and returned indoor plants.
+            
+            Request Details:
+            - Current Page: ${data.current_page}
+            - Items Per Page: ${data.per_page}
+            - Total Plants: ${data.total}
+            - Plants in this result: ${data.data.length}
+            
+            The app can use the external API for indoor plant data.
+          </div>
+        `;
+        
+        // Display the plants
+        displayPlants(data.data);
+        
+        return true;
+      } catch (error) {
+        console.error('API request failed:', error);
+        
+        resultDiv.innerHTML = `
+          <div class="error">API Request Error</div>
+          <div class="details">
+            Error: ${error.message}
+            
+            The API key may be invalid, the service is unavailable, or there may be a network issue.
+            The app will use local data instead.
+          </div>
+        `;
+        retryButton.style.display = 'block';
+        return false;
+      }
+    }
+    
+    // Function to display the plants
+    function displayPlants(plants) {
+      if (plants && plants.length > 0) {
+        plantContainer.style.display = 'block';
+        plantGrid.innerHTML = '';
+        
+        plants.forEach(plant => {
+          const card = document.createElement('div');
+          card.className = 'plant-card';
+          
+          const imageUrl = plant.default_image?.thumbnail || 'https://source.unsplash.com/random/300x300/?plant,indoor';
+          
+          card.innerHTML = `
+            <div class="plant-image">
+              <img src="${imageUrl}" alt="${plant.common_name || 'Indoor Plant'}">
+            </div>
+            <div class="plant-info">
+              <div class="plant-name">${plant.common_name || 'Unknown Plant'}</div>
+              <div class="plant-scientific">${plant.scientific_name || ''}</div>
+              <div class="environment">Indoor</div>
+            </div>
+          `;
+          
+          plantGrid.appendChild(card);
+        });
+      }
+    }
+
+    // Add event listener to retry button
+    retryButton.addEventListener('click', function() {
+      resultDiv.innerHTML = '<div class="loading">Testing API for indoor plants...</div>';
+      retryButton.style.display = 'none';
+      plantContainer.style.display = 'none';
+      testIndoorPlantsAPI();
+    });
+
+    // Run the test when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      testIndoorPlantsAPI();
+    });
+  </script>
+</body>
+</html> 

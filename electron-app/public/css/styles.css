@@ -1,0 +1,45 @@
+/* Testing dropdown menu */
+.testing-menu {
+  position: relative;
+}
+
+.testing-menu .submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  width: 180px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 100;
+  padding: 8px 0;
+}
+
+.testing-menu:hover .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.testing-menu .submenu li {
+  display: block;
+  width: 100%;
+}
+
+.testing-menu .submenu a {
+  display: block;
+  padding: 8px 16px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  font-size: 14px;
+}
+
+.testing-menu .submenu a:hover {
+  background-color: #f0f9ff;
+  color: #0369a1;
+} 

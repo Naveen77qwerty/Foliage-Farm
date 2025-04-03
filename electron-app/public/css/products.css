@@ -1,0 +1,22 @@
+/* Testing tools */
+.testing-tools {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.test-link {
+  display: inline-block;
+  background-color: #f0f9ff;
+  color: #0369a1;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-decoration: none;
+  border: 1px solid #bae6fd;
+  transition: all 0.2s ease;
+}
+
+.test-link:hover {
+  background-color: #e0f2fe;
+  border-color: #7dd3fc;
+} 

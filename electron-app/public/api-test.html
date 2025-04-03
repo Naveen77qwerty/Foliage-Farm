@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Status Test</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #065f46;
+      text-align: center;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f0f0f0;
+    }
+    .loading {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+    }
+    .success {
+      color: #065f46;
+      font-weight: bold;
+    }
+    .error {
+      color: #b91c1c;
+      font-weight: bold;
+    }
+    .details {
+      margin-top: 10px;
+      font-size: 0.9em;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Perenual API Status Test</h1>
+  <p>This page checks if the API key has reached its daily limit of 100 requests.</p>
+  
+  <div id="result">
+    <div class="loading">Testing API connection...</div>
+  </div>
+
+  <script>
+    // API Test Script
+    const API_KEY = 'sk-ooGA67ea26f7677fe9521';
+    const API_ENDPOINT = 'https://perenual.com/api/v2/species-list';
+    const resultDiv = document.getElementById('result');
+
+    async function testApiConnection() {
+      try {
+        console.log('Testing API connection...');
+        const testUrl = `${API_ENDPOINT}?key=${API_KEY}&page=1&per_page=1`;
+        console.log('Test URL:', testUrl.replace(API_KEY, 'API_KEY_HIDDEN'));
+        
+        const response = await fetch(testUrl);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`API connection test failed with status ${response.status}: ${errorText}`);
+          
+          resultDiv.innerHTML = `
+            <div class="error">API Connection Failed</div>
+            <div class="details">
+              Status: ${response.status} ${response.statusText}
+              Error: ${errorText}
+              
+              The API key has likely reached its daily limit of 100 requests.
+              The app will use local data instead.
+            </div>
+          `;
+          return false;
+        }
+        
+        const data = await response.json();
+        
+        if (!data || !data.data) {
+          console.error('API returned invalid data format:', data);
+          
+          resultDiv.innerHTML = `
+            <div class="error">API Returned Invalid Data</div>
+            <div class="details">
+              The API returned data in an unexpected format.
+              
+              The API key may have limitations or issues.
+              The app will use local data instead.
+            </div>
+          `;
+          return false;
+        }
+        
+        console.log('API connection successful:', {
+          to: data.to,
+          per_page: data.per_page,
+          current_page: data.current_page,
+          from: data.from,
+          data: `Array(${data.data ? data.data.length : 0})`
+        });
+        
+        resultDiv.innerHTML = `
+          <div class="success">API Connection Successful</div>
+          <div class="details">
+            API key is working and has not reached its daily limit.
+            
+            Request Details:
+            - Current Page: ${data.current_page}
+            - Items Per Page: ${data.per_page}
+            - Data Items: ${data.data.length}
+            
+            The app can use the external API for plant data.
+          </div>
+        `;
+        return true;
+      } catch (error) {
+        console.error('API connection test failed:', error);
+        
+        resultDiv.innerHTML = `
+          <div class="error">API Connection Error</div>
+          <div class="details">
+            Error: ${error.message}
+            
+            The API key may be invalid or the service is unavailable.
+            The app will use local data instead.
+          </div>
+        `;
+        return false;
+      }
+    }
+
+    // Run the test when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      testApiConnection();
+    });
+  </script>
+</body>
+</html> 

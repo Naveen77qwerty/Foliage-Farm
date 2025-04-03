@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Foliage Farm</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="additional-styles.css">
+  <link rel="stylesheet" href="animations.css">
+  <style>
+    .error-message {
+      background-color: #fee2e2;
+      color: #b91c1c;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    
+    .error-message i {
+      font-size: 18px;
+    }
+    
+    .loading .btn span {
+      visibility: hidden;
+      position: relative;
+    }
+    
+    .loading .btn span:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: 16px;
+      height: 16px;
+      border: 2px solid transparent;
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spinner 0.6s linear infinite;
+      visibility: visible;
+    }
+    
+    @keyframes spinner {
+      to {transform: rotate(360deg);}
+    }
+    
+    .success-message {
+      background-color: #d1fae5;
+      color: #047857;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    
+    .success-message i {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div id="pageLoader" class="page-loader">
+    <div class="loader-circle">
+      <div class="leaf-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loader-leaf">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+      </div>
+      <div class="loader-progress"></div>
+    </div>
+    <p class="loader-text">Growing your experience...</p>
+  </div>
+
+  <div class="page-wrapper">
+    <div class="logo-container">
+      <a href="index.html" class="logo page-transition-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="leaf-icon">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+        <span>Foliage Farm</span>
+      </a>
+    </div>
+
+    <div class="auth-wrapper">
+      <div class="floating-leaves">
+        <div class="leaf leaf-1"></div>
+        <div class="leaf leaf-2"></div>
+        <div class="leaf leaf-3"></div>
+        <div class="leaf leaf-4"></div>
+      </div>
+      
+      <form class="auth-form signup-form animate-entrance" id="signupForm">
+        <h1>Create Account</h1>
+        <p class="form-subtitle">Join our green community</p>
+        
+        <div class="error-message" id="signupError">
+          <i class='bx bx-error-circle'></i>
+          <span>Error message will appear here</span>
+        </div>
+        
+        <div class="success-message" id="signupSuccess">
+          <i class='bx bx-check-circle'></i>
+          <span>Registration successful! Redirecting to login...</span>
+        </div>
+        
+        <div class="input-box">
+          <input type="text" id="name" placeholder="Full Name" required>
+          <i class='bx bxs-user'></i>
+          <div class="input-highlight"></div>
+        </div>
+        
+        <div class="input-box">
+          <input type="email" id="username" placeholder="Email" required>
+          <i class='bx bxs-envelope'></i>
+          <div class="input-highlight"></div>
+        </div>
+        
+        <div class="input-box">
+          <input type="password" id="password" placeholder="Password" minlength="6" required>
+          <i class='bx bxs-lock-alt'></i>
+          <div class="input-highlight"></div>
+          <button type="button" class="toggle-password" aria-label="Toggle password visibility">
+            <i class='bx bxs-show'></i>
+          </button>
+          <div class="password-strength">
+            <div class="strength-bar"></div>
+          </div>
+        </div>
+        
+        <div class="input-box">
+          <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+          <i class='bx bxs-lock'></i>
+          <div class="input-highlight"></div>
+        </div>
+        
+        <div class="terms-privacy">
+          <label class="terms-checkbox">
+            <input type="checkbox" id="terms" required>
+            <span class="checkmark"></span>
+            I agree to the <a href="#" id="termsLink">Terms of Service</a> and <a href="#" id="privacyLink">Privacy Policy</a>
+          </label>
+        </div>
+        
+        <button type="submit" class="btn">
+          <span>Create Account</span>
+          <i class='bx bx-right-arrow-alt'></i>
+        </button>
+        
+        <div class="divider">
+          <span>or sign up with</span>
+        </div>
+        
+        <div class="social-login">
+          <button type="button" class="social-btn google" id="googleSignup">
+            <i class='bx bxl-google'></i>
+          </button>
+        </div>
+        
+        <div class="register-link">
+          <p>Already have an account? 
+            <a href="login.html" class="page-transition-link">Login</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Terms Modal -->
+  <div class="modal" id="termsModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Terms of Service</h2>
+      <div class="modal-body">
+        <p>Welcome to Foliage Farm. By using our services, you agree to these terms:</p>
+        <ul>
+          <li>You must be at least 18 years old to use our services</li>
+          <li>You are responsible for maintaining the security of your account</li>
+          <li>You may not use our services for any illegal purposes</li>
+          <li>We reserve the right to terminate accounts that violate our terms</li>
+          <li>We may update these terms from time to time</li>
+        </ul>
+        <p>For any questions about our terms, please contact us.</p>
+      </div>
+      <button class="btn modal-btn">I Understand</button>
+    </div>
+  </div>
+
+  <!-- Privacy Modal -->
+  <div class="modal" id="privacyModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Privacy Policy</h2>
+      <div class="modal-body">
+        <p>At Foliage Farm, we take your privacy seriously:</p>
+        <ul>
+          <li>We collect only the information necessary to provide our services</li>
+          <li>We do not sell your personal information to third parties</li>
+          <li>We use industry-standard security measures to protect your data</li>
+          <li>You can request access to or deletion of your personal information</li>
+          <li>We use cookies to enhance your browsing experience</li>
+        </ul>
+        <p>For more information about our privacy practices, please contact us.</p>
+      </div>
+      <button class="btn modal-btn">I Understand</button>
+    </div>
+  </div>
+
+  <!-- Social Login Modal -->
+  <div class="modal" id="socialLoginModal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2 id="socialLoginTitle">Continue with Google</h2>
+      <p>You'll be redirected to complete the authentication process.</p>
+      <div class="social-login-info">
+        <div class="social-icon-large" id="socialIconLarge">
+          <i class='bx bxl-google'></i>
+        </div>
+        <p>This is a secure connection. Your information is protected.</p>
+      </div>
+      <button class="btn continue-btn">
+        <span>Continue</span>
+        <i class='bx bx-right-arrow-alt'></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <script src="animations.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const signupForm = document.getElementById('signupForm');
+      const errorMessage = document.getElementById('signupError');
+      const successMessage = document.getElementById('signupSuccess');
+      
+      signupForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Hide any existing messages
+        errorMessage.style.display = 'none';
+        successMessage.style.display = 'none';
+        
+        // Get form data
+        const name = document.getElementById('name').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm-password').value;
+        const termsAccepted = document.getElementById('terms').checked;
+        
+        // Validate form
+        if (password !== confirmPassword) {
+          errorMessage.querySelector('span').textContent = 'Passwords do not match';
+          errorMessage.style.display = 'flex';
+          return;
+        }
+        
+        if (!termsAccepted) {
+          errorMessage.querySelector('span').textContent = 'You must accept the Terms of Service';
+          errorMessage.style.display = 'flex';
+          return;
+        }
+        
+        // Show loading state
+        signupForm.classList.add('loading');
+        
+        try {
+          // Call register function from auth.js
+          await registerUser(name, username, password);
+          
+          // Show success message
+          successMessage.style.display = 'flex';
+          
+          // Redirect to login page after 2 seconds
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 2000);
+        } catch (error) {
+          // Show error message
+          errorMessage.querySelector('span').textContent = error.message;
+          errorMessage.style.display = 'flex';
+        } finally {
+          // Remove loading state
+          signupForm.classList.remove('loading');
+        }
+      });
+      
+      // Password toggle functionality
+      const togglePassword = document.querySelector('.toggle-password');
+      togglePassword.addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        // Toggle icon
+        const icon = this.querySelector('i');
+        icon.classList.toggle('bxs-show');
+        icon.classList.toggle('bxs-hide');
+      });
+      
+      // Password strength meter
+      const passwordInput = document.getElementById('password');
+      const strengthBar = document.querySelector('.strength-bar');
+      
+      passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        
+        // Update strength based on password characteristics
+        if (password.length >= 8) strength += 25;
+        if (/[A-Z]/.test(password)) strength += 25;
+        if (/[0-9]/.test(password)) strength += 25;
+        if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+        
+        // Update strength bar
+        strengthBar.style.width = `${strength}%`;
+        
+        // Set color based on strength
+        if (strength < 50) {
+          strengthBar.style.backgroundColor = '#ef4444';
+        } else if (strength < 75) {
+          strengthBar.style.backgroundColor = '#f59e0b';
+        } else {
+          strengthBar.style.backgroundColor = '#10b981';
+        }
+      });
+      
+      // Terms and Privacy modal functionality
+      const termsLink = document.getElementById('termsLink');
+      const privacyLink = document.getElementById('privacyLink');
+      const termsModal = document.getElementById('termsModal');
+      const privacyModal = document.getElementById('privacyModal');
+      const overlay = document.getElementById('overlay');
+      const closeButtons = document.querySelectorAll('.close-modal');
+      const modalButtons = document.querySelectorAll('.modal-btn');
+      
+      termsLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        termsModal.style.display = 'block';
+        overlay.style.display = 'block';
+      });
+      
+      privacyLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        privacyModal.style.display = 'block';
+        overlay.style.display = 'block';
+      });
+      
+      closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          termsModal.style.display = 'none';
+          privacyModal.style.display = 'none';
+          overlay.style.display = 'none';
+        });
+      });
+      
+      modalButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          termsModal.style.display = 'none';
+          privacyModal.style.display = 'none';
+          overlay.style.display = 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+

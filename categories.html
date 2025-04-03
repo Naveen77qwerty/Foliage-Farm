@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories - Foliage Farm</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="stylesp.css">
+  <link rel="stylesheet" href="categories-styles.css">
+  <link rel="stylesheet" href="animations.css">
+</head>
+<body>
+  <!-- Page Loader -->
+  <div id="pageLoader" class="page-loader">
+    <div class="loader-circle">
+      <div class="leaf-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loader-leaf">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+      </div>
+      <div class="loader-progress"></div>
+    </div>
+    <p class="loader-text">Loading Green Treasures...</p>
+  </div>
+  
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="leaf-icon">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+        <span>Foliage Farm</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="products.html" class="nav-link">Plants</a></li>
+        <li><a href="plant-care-faq.html" class="nav-link">FAQs</a></li>
+        <li><a href="devpage.html" class="nav-link">Devs</a></li>
+      </ul>
+      
+      <div class="auth-links">
+        <span class="welcome-text">Welcome, <span id="userName">user</span>!</span>
+        <a href="login.html" class="auth-link" id="logoutBtn">Logout</a>
+      </div>
+      
+      <button class="mobile-menu-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Welcome Banner -->
+  <div class="welcome-banner">
+    <div class="container">
+      <div class="welcome-content">
+        <h1>Welcome to Your Green Journey</h1>
+        <p>Discover plants that match your lifestyle and environment</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommendation Questions -->
+  <section class="recommendation-section">
+    <div class="container">
+      <div class="recommendation-header">
+        <h2>Help us recommend the perfect plants for you</h2>
+        <p>Answer a few questions to get personalized suggestions</p>
+      </div>
+      <div class="recommendation-form">
+        <div class="form-group">
+          <label>Where do you plan to keep your plants?</label>
+          <div class="option-buttons">
+            <button class="option-btn active" data-value="indoor">Indoor</button>
+            <button class="option-btn" data-value="outdoor">Outdoor</button>
+            <button class="option-btn" data-value="both">Both</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>What's your experience level with plants?</label>
+          <div class="option-buttons">
+            <button class="option-btn" data-value="beginner">Beginner</button>
+            <button class="option-btn active" data-value="intermediate">Intermediate</button>
+            <button class="option-btn" data-value="expert">Expert</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>What's your local climate like?</label>
+          <div class="option-buttons">
+            <button class="option-btn" data-value="tropical">Tropical</button>
+            <button class="option-btn active" data-value="temperate">Temperate</button>
+            <button class="option-btn" data-value="arid">Arid</button>
+            <button class="option-btn" data-value="humid">Humid</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Select your state:</label>
+          <select id="stateSelect" class="state-select">
+            <option value="">Select a state</option>
+            <option value="andhra-pradesh">Andhra Pradesh</option>
+            <option value="assam">Assam</option>
+            <option value="bihar">Bihar</option>
+            <option value="gujarat">Gujarat</option>
+            <option value="karnataka">Karnataka</option>
+            <option value="kerala">Kerala</option>
+            <option value="maharashtra">Maharashtra</option>
+            <option value="tamil-nadu">Tamil Nadu</option>
+            <option value="west-bengal">West Bengal</option>
+          </select>
+        </div>
+        <button id="submitRecommendations" class="recommend-btn">Show Plant Recommendations</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Explore Categories</h2>
+        <div class="view-options">
+          <button class="view-btn active" data-view="grid">
+            <i class='bx bxs-grid'></i>
+          </button>
+          <button class="view-btn" data-view="list">
+            <i class='bx bx-list-ul'></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="categories-grid">
+        <!-- Plants Category -->
+        <div class="category-card">
+          <div class="category-image">
+            <img src="plants-categories.png" alt="Plants">
+            <div class="category-overlay"></div>
+          </div>
+          <div class="category-content">
+            <h3>Plants</h3>
+            <p>Discover a wide variety of indoor and outdoor plants</p>
+            <a href="products.html?category=plants" class="category-btn">Explore <i class='bx bx-right-arrow-alt'></i></a>
+          </div>
+        </div>
+        
+        <!-- Trees Category -->
+        <div class="category-card">
+          <div class="category-image">
+            <img src="trees_category.jpg" alt="Trees">
+            <div class="category-overlay"></div>
+          </div>
+          <div class="category-content">
+            <h3>Trees</h3>
+            <p>Beautiful trees for your garden and landscaping needs</p>
+            <a href="products.html?category=tree" class="category-btn">Explore <i class='bx bx-right-arrow-alt'></i></a>
+          </div>
+        </div>
+        
+        <!-- Fertilizers Category -->
+        <div class="category-card">
+          <div class="category-image">
+            <img src="fertiliser_category.png" alt="Fertilizers">
+            <div class="category-overlay"></div>
+          </div>
+          <div class="category-content">
+            <h3>Fertilizers</h3>
+            <p>Nourish your plants with our premium fertilizers</p>
+            <a href="under_development.html" class="category-btn">Explore <i class='bx bx-right-arrow-alt'></i></a>
+          </div>
+        </div>
+        
+        <!-- Pesticides Category -->
+        <div class="category-card">
+          <div class="category-image">
+            <img src="pesti-category.png" alt="Pesticides">
+            <div class="category-overlay"></div>
+          </div>
+          <div class="category-content">
+            <h3>Pesticides</h3>
+            <p>Protect your plants from pests and diseases</p>
+            <a href="under_development.html" class="category-btn">Explore <i class='bx bx-right-arrow-alt'></i></a>
+          </div>
+        </div>
+        
+        <!-- Tools Category -->
+        <div class="category-card">
+          <div class="category-image">
+            <img src="tools.png" alt="Tools">
+            <div class="category-overlay"></div>
+          </div>
+          <div class="category-content">
+            <h3>Garden Tools</h3>
+            <p>Essential tools for maintaining your garden</p>
+            <a href="under_development.html" class="category-btn">Explore <i class='bx bx-right-arrow-alt'></i></a>
+          </div>
+        </div>
+        
+        <!-- Pots Category -->
+        <div class="category-card">
+          <div class="category-image">
+            <img src="pots.jpg" alt="Pots">
+            <div class="category-overlay"></div>
+          </div>
+          <div class="category-content">
+            <h3>Pots & Planters</h3>
+            <p>Stylish containers for your beautiful plants</p>
+            <a href="under_development.html" class="category-btn">Explore <i class='bx bx-right-arrow-alt'></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  
+
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="leaf-icon">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+            </svg>
+            <span>Foliage Farm</span>
+          </a>
+          <p>Bringing nature's finest plants from across India to your doorstep. Discover the perfect green companion for your space.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="products.html">Plants</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year">2023</span> Foliage Farm. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Add Recommendations Popup -->
+  <div class="recommendations-popup" id="recommendationsPopup">
+    <div class="recommendations-popup-content">
+      <div class="recommendations-popup-header">
+        <h3>Perfect Plants For You</h3>
+        <button class="close-popup"><i class='bx bx-x'></i></button>
+      </div>
+      <div class="recommendations-popup-body">
+        <div class="recommendations-summary">
+          <div class="recommendations-criteria">
+            <span class="criteria-label">Based on:</span>
+            <span class="criteria-value" id="environmentCriteria">Indoor</span> • 
+            <span class="criteria-value" id="experienceCriteria">Intermediate</span> • 
+            <span class="criteria-value" id="climateCriteria">Temperate</span>
+            <span class="criteria-value" id="stateCriteria"></span>
+          </div>
+        </div>
+        <div class="recommendations-plants" id="recommendationsPlants">
+          <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Finding perfect plants for you...</p>
+          </div>
+        </div>
+      </div>
+      <div class="recommendations-popup-footer">
+        <a href="products.html" class="view-all-recommendations-btn">View All Plants</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weather Popup -->
+  <div class="weather-popup" id="weatherPopup">
+    <div class="weather-popup-content">
+      <div class="weather-popup-header">
+        <h3>Weather Conditions</h3>
+        <button class="close-popup"><i class='bx bx-x'></i></button>
+      </div>
+      <div class="weather-popup-body">
+        <div class="current-weather">
+          <div class="weather-icon">
+            <i class='bx bx-sun'></i>
+          </div>
+          <div class="weather-info">
+            <h4>Current Weather</h4>
+            <p class="temperature">32°C</p>
+            <p class="condition">Sunny</p>
+            <p class="location">Mumbai, Maharashtra</p>
+          </div>
+        </div>
+        <div class="weather-recommendations">
+          <h4>Recommended Plants</h4>
+          <ul class="plant-recommendations">
+            <li>
+              <img src="https://source.unsplash.com/random/50x50/?succulent" alt="Succulent">
+              <div class="plant-info">
+                <h5>Succulents</h5>
+                <p>Perfect for current hot and dry conditions</p>
+              </div>
+            </li>
+            <li>
+              <img src="https://source.unsplash.com/random/50x50/?cactus" alt="Cactus">
+              <div class="plant-info">
+                <h5>Cacti</h5>
+                <p>Thrives in sunny environments</p>
+              </div>
+            </li>
+            <li>
+              <img src="https://source.unsplash.com/random/50x50/?aloe" alt="Aloe Vera">
+              <div class="plant-info">
+                <h5>Aloe Vera</h5>
+                <p>Medicinal plant that loves sunshine</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="weather-popup-footer">
+        <button class="view-plants-btn">View Recommended Plants</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Transition Overlay -->
+  <div id="pageTransitionOverlay" class="page-transition-overlay"></div>
+
+  <script src="animations.js"></script>
+  <script type="module" src="categories-script.js"></script>
+</body>
+</html>

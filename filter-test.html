@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter API Test - Foliage Farm</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1 {
+      color: #065f46;
+      text-align: center;
+    }
+    h2 {
+      color: #065f46;
+      margin-top: 30px;
+    }
+    .filter-panel {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .filter-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .filter-group {
+      margin-bottom: 15px;
+    }
+    .filter-group h3 {
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #065f46;
+    }
+    .filter-option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .filter-option input {
+      margin-right: 8px;
+    }
+    .btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: 500;
+    }
+    .btn:hover {
+      background: #059669;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f0f0f0;
+    }
+    .loading {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+    }
+    .success {
+      color: #065f46;
+      font-weight: bold;
+    }
+    .error {
+      color: #b91c1c;
+      font-weight: bold;
+    }
+    .details {
+      margin-top: 10px;
+      font-size: 0.9em;
+      white-space: pre-wrap;
+    }
+    .plant-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .plant-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .plant-card:hover {
+      transform: translateY(-5px);
+    }
+    .plant-image {
+      height: 180px;
+      overflow: hidden;
+    }
+    .plant-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .plant-info {
+      padding: 15px;
+    }
+    .plant-name {
+      font-weight: 600;
+      color: #065f46;
+      margin-bottom: 5px;
+    }
+    .plant-scientific {
+      font-style: italic;
+      color: #666;
+      font-size: 0.85em;
+      margin-bottom: 10px;
+    }
+    .plant-attributes {
+      font-size: 0.9em;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 8px;
+    }
+    .attribute {
+      display: inline-block;
+      background: #d1fae5;
+      color: #065f46;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+    }
+    .api-url {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: monospace;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      color: #065f46;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Filter API Test</h1>
+  <p>This page allows you to test different filter combinations to verify they work correctly with the Perenual API.</p>
+  
+  <div class="filter-panel">
+    <h2>Filter Options</h2>
+    <div class="filter-options">
+      <div class="filter-group">
+        <h3>Environment</h3>
+        <div class="filter-option">
+          <input type="radio" name="environment" id="envAny" value="" checked>
+          <label for="envAny">Any</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="environment" id="envIndoor" value="indoor">
+          <label for="envIndoor">Indoor</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="environment" id="envOutdoor" value="outdoor">
+          <label for="envOutdoor">Outdoor</label>
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <h3>Edible</h3>
+        <div class="filter-option">
+          <input type="radio" name="edible" id="edibleAny" value="" checked>
+          <label for="edibleAny">Any</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="edible" id="edibleYes" value="1">
+          <label for="edibleYes">Edible</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="edible" id="edibleNo" value="0">
+          <label for="edibleNo">Non-edible</label>
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <h3>Cycle</h3>
+        <div class="filter-option">
+          <input type="radio" name="cycle" id="cycleAny" value="" checked>
+          <label for="cycleAny">Any</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="cycle" id="cyclePerennial" value="perennial">
+          <label for="cyclePerennial">Perennial</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="cycle" id="cycleAnnual" value="annual">
+          <label for="cycleAnnual">Annual</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="cycle" id="cycleBiennial" value="biennial">
+          <label for="cycleBiennial">Biennial</label>
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <h3>State/Region</h3>
+        <select id="stateSelect" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ddd;">
+          <option value="">Any State</option>
+          <option value="andhra-pradesh">Andhra Pradesh</option>
+          <option value="assam">Assam</option>
+          <option value="bihar">Bihar</option>
+          <option value="gujarat">Gujarat</option>
+          <option value="karnataka">Karnataka</option>
+          <option value="kerala">Kerala</option>
+          <option value="maharashtra">Maharashtra</option>
+          <option value="tamil-nadu">Tamil Nadu</option>
+          <option value="west-bengal">West Bengal</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <h3>Watering</h3>
+        <div class="filter-option">
+          <input type="radio" name="watering" id="wateringAny" value="" checked>
+          <label for="wateringAny">Any</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="watering" id="wateringFrequent" value="frequent">
+          <label for="wateringFrequent">Frequent</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="watering" id="wateringAverage" value="average">
+          <label for="wateringAverage">Average</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="watering" id="wateringMinimum" value="minimum">
+          <label for="wateringMinimum">Minimum</label>
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <h3>Sunlight</h3>
+        <div class="filter-option">
+          <input type="radio" name="sunlight" id="sunlightAny" value="" checked>
+          <label for="sunlightAny">Any</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="sunlight" id="sunlightFull" value="full_sun">
+          <label for="sunlightFull">Full Sun</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="sunlight" id="sunlightPartial" value="part_shade">
+          <label for="sunlightPartial">Partial Shade</label>
+        </div>
+        <div class="filter-option">
+          <input type="radio" name="sunlight" id="sunlightShade" value="full_shade">
+          <label for="sunlightShade">Full Shade</label>
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <label for="searchInput">Search Term:</label>
+      <input type="text" id="searchInput" placeholder="Enter search term..." style="width: 300px; padding: 8px; margin: 10px 0;">
+    </div>
+    
+    <button id="applyFilters" class="btn">Apply Filters</button>
+  </div>
+  
+  <div id="result">
+    <div class="loading">Select filters and click Apply</div>
+  </div>
+  
+  <div id="plantContainer" style="display: none;">
+    <h2>Filter Results</h2>
+    <div class="plant-grid" id="plantGrid"></div>
+  </div>
+  
+  <a href="index.html" class="back-link">Back to Homepage</a>
+
+  <script>
+    // API configuration
+    const API_KEY = 'sk-ooGA67ea26f7677fe9521';
+    const API_ENDPOINT = 'https://perenual.com/api/v2/species-list';
+    const resultDiv = document.getElementById('result');
+    const plantContainer = document.getElementById('plantContainer');
+    const plantGrid = document.getElementById('plantGrid');
+    const applyFiltersBtn = document.getElementById('applyFilters');
+
+    // Apply filters
+    applyFiltersBtn.addEventListener('click', function() {
+      testFilteredAPI();
+    });
+
+    // Function to test API with filters
+    async function testFilteredAPI() {
+      resultDiv.innerHTML = '<div class="loading">Testing API with selected filters...</div>';
+      plantContainer.style.display = 'none';
+      
+      try {
+        // Get selected filters
+        const filters = {
+          environment: getSelectedRadioValue('environment'),
+          edible: getSelectedRadioValue('edible'),
+          cycle: getSelectedRadioValue('cycle'),
+          watering: getSelectedRadioValue('watering'),
+          sunlight: getSelectedRadioValue('sunlight'),
+          search: document.getElementById('searchInput').value.trim(),
+          state: document.getElementById('stateSelect').value
+        };
+        
+        console.log('Applying filters:', filters);
+        
+        // Build query parameters
+        const queryParams = new URLSearchParams();
+        queryParams.append('key', API_KEY);
+        
+        // Add per_page to limit results
+        queryParams.append('per_page', '9');
+        
+        // Add search parameter if present
+        if (filters.search) {
+          queryParams.append('q', filters.search);
+        }
+        
+        // Add environment filter (indoor/outdoor)
+        if (filters.environment) {
+          if (filters.environment === 'indoor') {
+            queryParams.append('indoor', '1');
+          } else if (filters.environment === 'outdoor') {
+            queryParams.append('indoor', '0');
+          }
+        }
+        
+        // Add cycle filter if present
+        if (filters.cycle) {
+          queryParams.append('cycle', filters.cycle);
+        }
+        
+        // Add watering filter
+        if (filters.watering) {
+          queryParams.append('watering', filters.watering);
+        }
+        
+        // Add sunlight filter
+        if (filters.sunlight) {
+          queryParams.append('sunlight', filters.sunlight);
+        }
+        
+        // Add edible filter
+        if (filters.edible) {
+          queryParams.append('edible', filters.edible);
+        }
+        
+        // Make API request
+        const requestUrl = `${API_ENDPOINT}?${queryParams.toString()}`;
+        const displayUrl = requestUrl.replace(API_KEY, 'API_KEY_HIDDEN');
+        console.log('Request URL:', displayUrl);
+        
+        const response = await fetch(requestUrl);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`API request failed with status ${response.status}: ${errorText}`);
+          
+          resultDiv.innerHTML = `
+            <div class="error">API Request Failed</div>
+            <div class="details">
+              Status: ${response.status} ${response.statusText}
+              Error: ${errorText}
+            </div>
+          `;
+          return false;
+        }
+        
+        const data = await response.json();
+        
+        if (!data || !data.data || data.data.length === 0) {
+          console.error('API returned no plants with these filters:', data);
+          
+          resultDiv.innerHTML = `
+            <div class="error">No Plants Found</div>
+            <div class="details">
+              The API returned zero plants matching your filters.
+              
+              Try different filter combinations.
+              
+              <div class="api-url">
+                Request URL: ${displayUrl}
+              </div>
+            </div>
+          `;
+          return false;
+        }
+        
+        // Handle state filtering locally if state is provided
+        let filteredData = [...data.data];
+        if (filters.state) {
+          // API doesn't support state filtering directly, so we do it client-side
+          // In a real scenario, we'd match plant regions/origins to states
+          // For the test page, we'll randomly filter out some plants to simulate state filtering
+          console.log(`Filtering plants for state: ${filters.state}`);
+          
+          // Use the string hash of the state + plant ID to create a deterministic filter
+          filteredData = data.data.filter(plant => {
+            const hash = hashCode(`${filters.state}-${plant.id}`);
+            return hash % 3 !== 0; // Keep approximately 2/3 of plants for any state
+          });
+          
+          console.log(`After state filtering: ${filteredData.length} plants remain`);
+        }
+        
+        console.log('API returned filtered plants successfully:', {
+          total: data.total,
+          per_page: data.per_page,
+          current_page: data.current_page,
+          from: data.from,
+          plants: filteredData.length
+        });
+        
+        resultDiv.innerHTML = `
+          <div class="success">Plants Found!</div>
+          <div class="details">
+            API successfully returned plants matching your filters.
+            
+            Request Details:
+            - Total Plants: ${data.total}
+            - Current Page: ${data.current_page}
+            - Items Per Page: ${data.per_page}
+            - Plants in this result: ${filteredData.length}${data.data.length !== filteredData.length ? ` (filtered from ${data.data.length})` : ''}
+            ${filters.state ? `- State Filter: ${filters.state} (applied after API retrieval)` : ''}
+            
+            <div class="api-url">
+              Request URL: ${displayUrl}
+            </div>
+          </div>
+        `;
+        
+        // Display the plants
+        displayPlants(filteredData);
+        
+        return true;
+      } catch (error) {
+        console.error('API request failed:', error);
+        
+        resultDiv.innerHTML = `
+          <div class="error">API Request Error</div>
+          <div class="details">
+            Error: ${error.message}
+          </div>
+        `;
+        return false;
+      }
+    }
+    
+    // Helper function to generate a simple hash code for a string
+    function hashCode(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+      }
+      return Math.abs(hash);
+    }
+    
+    // Function to display the plants
+    function displayPlants(plants) {
+      if (plants && plants.length > 0) {
+        plantContainer.style.display = 'block';
+        plantGrid.innerHTML = '';
+        
+        plants.forEach(plant => {
+          const card = document.createElement('div');
+          card.className = 'plant-card';
+          
+          // Get image URL
+          let imageUrl = 'https://source.unsplash.com/random/300x300/?plant';
+          if (plant.default_image && plant.default_image.thumbnail) {
+            imageUrl = plant.default_image.thumbnail;
+          } else if (plant.default_image && plant.default_image.small_url) {
+            imageUrl = plant.default_image.small_url;
+          } else if (plant.default_image && plant.default_image.regular_url) {
+            imageUrl = plant.default_image.regular_url;
+          }
+          
+          // Create attributes array
+          const attributes = [];
+          if (plant.cycle) attributes.push(plant.cycle);
+          if (plant.watering) attributes.push(`Water: ${plant.watering}`);
+          if (plant.sunlight) {
+            const sunlight = Array.isArray(plant.sunlight) ? plant.sunlight[0] : plant.sunlight;
+            attributes.push(sunlight);
+          }
+          if (plant.indoor === 1) attributes.push('Indoor');
+          
+          card.innerHTML = `
+            <div class="plant-image">
+              <img src="${imageUrl}" alt="${plant.common_name || 'Plant'}">
+            </div>
+            <div class="plant-info">
+              <div class="plant-name">${plant.common_name || 'Unknown Plant'}</div>
+              <div class="plant-scientific">${plant.scientific_name || ''}</div>
+              <div class="plant-attributes">
+                ${attributes.map(attr => `<span class="attribute">${attr}</span>`).join('')}
+              </div>
+            </div>
+          `;
+          
+          plantGrid.appendChild(card);
+        });
+      }
+    }
+    
+    // Helper function to get selected radio button value
+    function getSelectedRadioValue(name) {
+      const selected = document.querySelector(`input[name="${name}"]:checked`);
+      return selected ? selected.value : '';
+    }
+  </script>
+</body>
+</html> 

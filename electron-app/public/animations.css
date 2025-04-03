@@ -1,0 +1,470 @@
+/* Page Loader */
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.97), rgba(6, 78, 59, 0.99));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader-circle {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.loader-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top-color: var(--color-emerald-300);
+  animation: spin 1.5s linear infinite;
+}
+
+.loader-progress:before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top-color: var(--color-emerald-400);
+  animation: spin 2s linear infinite;
+}
+
+.loader-progress:after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top-color: var(--color-emerald-500);
+  animation: spin 1s linear infinite;
+}
+
+.leaf-container {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.loader-leaf {
+  width: 100%;
+  height: 100%;
+  animation: leafGrow 2s ease-in-out infinite alternate;
+}
+
+.loader-text {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  animation: pulse 2s ease-in-out infinite alternate;
+}
+
+/* Page Transition Overlay */
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(6, 95, 70, 0.97), rgba(6, 78, 59, 0.99));
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.page-transition-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Growing Plant Animation */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.plant-container {
+  position: relative;
+  width: 120px;
+  height: 200px;
+}
+
+.soil {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  background: #5c4033;
+  border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+  transform-origin: bottom;
+  animation: soilAppear 0.5s ease forwards;
+}
+
+.stem {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  width: 8px;
+  height: 0;
+  background: #10b981;
+  transform: translateX(-50%);
+  animation: stemGrow 1.5s ease forwards 0.5s;
+}
+
+.growing-leaf {
+  position: absolute;
+  width: 0;
+  height: 0;
+  background: #34d399;
+  border-radius: 50% 50% 50% 0;
+  transform-origin: bottom left;
+  opacity: 0;
+}
+
+.growing-leaf-1 {
+  top: 20%;
+  right: 0;
+  animation: leafGrow 0.6s ease forwards 1s;
+}
+
+.growing-leaf-2 {
+  top: 40%;
+  left: 0;
+  transform: scaleX(-1);
+  animation: leafGrow 0.6s ease forwards 1.2s;
+}
+
+.growing-leaf-3 {
+  top: 60%;
+  right: 0;
+  animation: leafGrow 0.6s ease forwards 1.4s;
+}
+
+.growing-leaf-4 {
+  top: 80%;
+  left: 0;
+  transform: scaleX(-1);
+  animation: leafGrow 0.6s ease forwards 1.6s;
+}
+
+.growing-leaf-5 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) rotate(-90deg);
+  border-radius: 50% 50% 0 50%;
+  animation: topLeafGrow 0.8s ease forwards 1.8s;
+}
+
+/* Form Animations */
+.auth-form.animate-entrance {
+  animation: formAppear 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+
+/* Button Hover Effects */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.7s ease;
+}
+
+.btn:hover:before {
+  left: 100%;
+}
+
+.btn i {
+  transition: transform 0.3s ease;
+}
+
+.btn:hover i {
+  transform: translateX(5px);
+}
+
+/* Input Focus Effects */
+.input-box input:focus ~ .input-highlight {
+  width: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Keyframes */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes leafGrow {
+  0% {
+    transform: scale(0.5) rotate(0deg);
+  }
+  100% {
+    transform: scale(1) rotate(5deg);
+  }
+}
+
+@keyframes formAppear {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes soilAppear {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes stemGrow {
+  from {
+    height: 0;
+  }
+  to {
+    height: 170px;
+  }
+}
+
+@keyframes leafGrow {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 40px;
+    height: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes topLeafGrow {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 50px;
+    height: 50px;
+    opacity: 1;
+  }
+}
+
+@keyframes textPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* Enhanced Form Entrance Animation */
+.animate-entrance > * {
+  opacity: 0;
+  animation: elementFadeIn 0.5s ease forwards;
+}
+
+.animate-entrance h1 {
+  animation-delay: 0.1s;
+}
+
+.animate-entrance .form-subtitle {
+  animation-delay: 0.2s;
+}
+
+.animate-entrance .input-box:nth-of-type(1) {
+  animation-delay: 0.3s;
+}
+
+.animate-entrance .input-box:nth-of-type(2) {
+  animation-delay: 0.4s;
+}
+
+.animate-entrance .input-box:nth-of-type(3) {
+  animation-delay: 0.5s;
+}
+
+.animate-entrance .input-box:nth-of-type(4) {
+  animation-delay: 0.6s;
+}
+
+.animate-entrance .remember-forgot,
+.animate-entrance .terms-privacy {
+  animation-delay: 0.7s;
+}
+
+.animate-entrance .btn {
+  animation-delay: 0.8s;
+}
+
+.animate-entrance .divider {
+  animation-delay: 0.9s;
+}
+
+.animate-entrance .social-login {
+  animation-delay: 1s;
+}
+
+.animate-entrance .register-link {
+  animation-delay: 1.1s;
+}
+
+@keyframes elementFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success Animation */
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+}
+
+.success-message i {
+  animation: successCheck 0.5s ease forwards;
+}
+
+.success-message h3 {
+  font-size: 24px;
+  color: var(--color-emerald-800);
+  margin-bottom: 10px;
+}
+
+.success-message p {
+  color: var(--color-gray-600);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+@keyframes successCheck {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Text Center Utility */
+.text-center {
+  text-align: center;
+}
+
+/* Modal Animation */
+.modal {
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Page Transition Link */
+.page-transition-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-transition-link:after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-emerald-500);
+  transition: width 0.3s ease;
+}
+
+.page-transition-link:hover:after {
+  width: 100%;
+}

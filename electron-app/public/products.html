@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Collection - Foliage Farm</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="stylesp.css">
+  <link rel="stylesheet" href="products-styles.css">
+  <link rel="stylesheet" href="animations.css">
+  <style>
+    /* Fix for Boxicons in dynamically loaded content */
+    .bx {
+      font-family: 'boxicons' !important;
+      display: inline-block;
+      line-height: 1;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* Ensure filter buttons maintain proper styling after filtering */
+    .product-add-btn, .product-action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .product-add-btn {
+      background-color: var(--color-emerald-600);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    .product-add-btn:hover {
+      background-color: var(--color-emerald-700);
+    }
+    /* Fix for cart count not displaying properly */
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 20px;
+      height: 20px;
+      background-color: var(--color-emerald-600);
+      color: var(--color-white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Page Loader -->
+  <div id="pageLoader" class="page-loader">
+    <div class="loader-circle">
+      <div class="leaf-container">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="loader-leaf">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+      </div>
+      <div class="loader-progress"></div>
+    </div>
+    <p class="loader-text">Loading Our Plant Collection...</p>
+  </div>
+  
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="leaf-icon">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+        </svg>
+        <span>Foliage Farm</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="categories.html" class="nav-link">Categories</a></li>
+        <li><a href="plant-care-faq.html" class="nav-link">FAQs</a></li>
+        <li><a href="devpage.html" class="nav-link">Devs</a></li>
+      </ul>
+      
+      <div class="auth-links">
+        <span class="welcome-text">Welcome, <span id="userName">user</span>!</span>
+        <a href="login.html" class="auth-link" id="logoutBtn">Logout</a>
+        <a href="cart.html" class="cart-icon-link">
+          <div class="cart-icon-container">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cart-icon">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            <span class="cart-count">0</span>
+          </div>
+        </a>
+      </div>
+      
+      <button class="mobile-menu-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Banner -->
+  <div class="products-hero">
+    <div class="products-hero-overlay"></div>
+    <div class="container">
+      <div class="products-hero-content">
+        <h1>Discover India's Botanical Treasures</h1>
+        <p>Explore our diverse collection of native plants from across India</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="products-main">
+    <div class="container">
+      <div class="products-layout">
+        <!-- Filters Sidebar -->
+        <aside class="filters-sidebar">
+          <div class="filters-header">
+            <h2>Filters</h2>
+            <button id="clearFilters" class="clear-filters-btn">
+              <i class='bx bx-reset'></i> Clear All
+            </button>
+            <button id="toggleFilters" class="toggle-filters-btn">
+              <i class='bx bx-filter-alt'></i>
+              <span>Filters</span>
+            </button>
+          </div>
+
+          <div class="filters-body">
+            <!-- Search -->
+            <div class="filter-group">
+              <div class="filter-search">
+                <input type="text" id="searchInput" placeholder="Search plants...">
+                <i class='bx bx-search'></i>
+              </div>
+            </div>
+
+            <!-- State Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>State</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <div class="filter-search">
+                  <input type="text" placeholder="Search states...">
+                  <i class='bx bx-search'></i>
+                </div>
+                <div class="filter-options-list">
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="all">
+                    <span class="checkmark"></span>
+                    <span>All States</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="andhra-pradesh">
+                    <span class="checkmark"></span>
+                    <span>Andhra Pradesh</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="assam">
+                    <span class="checkmark"></span>
+                    <span>Assam</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="bihar">
+                    <span class="checkmark"></span>
+                    <span>Bihar</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="gujarat">
+                    <span class="checkmark"></span>
+                    <span>Gujarat</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="karnataka">
+                    <span class="checkmark"></span>
+                    <span>Karnataka</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="kerala">
+                    <span class="checkmark"></span>
+                    <span>Kerala</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="maharashtra">
+                    <span class="checkmark"></span>
+                    <span>Maharashtra</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="tamil-nadu">
+                    <span class="checkmark"></span>
+                    <span>Tamil Nadu</span>
+                  </label>
+                  <label class="filter-option">
+                    <input type="checkbox" name="state" value="west-bengal">
+                    <span class="checkmark"></span>
+                    <span>West Bengal</span>
+                  </label>
+                  <!-- More states would be added here -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Environment Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Environment</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="environment" value="indoor">
+                  <span class="checkmark"></span>
+                  <span>Indoor</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="environment" value="outdoor">
+                  <span class="checkmark"></span>
+                  <span>Outdoor</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="environment" value="both">
+                  <span class="checkmark"></span>
+                  <span>Indoor & Outdoor</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Weather Type Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Weather Type</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="weather" value="tropical">
+                  <span class="checkmark"></span>
+                  <span>Tropical</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="weather" value="subtropical">
+                  <span class="checkmark"></span>
+                  <span>Subtropical</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="weather" value="temperate">
+                  <span class="checkmark"></span>
+                  <span>Temperate</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="weather" value="arid">
+                  <span class="checkmark"></span>
+                  <span>Arid</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="weather" value="humid">
+                  <span class="checkmark"></span>
+                  <span>Humid</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Soil Type Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Soil Type</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="soil" value="sandy">
+                  <span class="checkmark"></span>
+                  <span>Sandy</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="soil" value="clay">
+                  <span class="checkmark"></span>
+                  <span>Clay</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="soil" value="loamy">
+                  <span class="checkmark"></span>
+                  <span>Loamy</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="soil" value="peaty">
+                  <span class="checkmark"></span>
+                  <span>Peaty</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="soil" value="chalky">
+                  <span class="checkmark"></span>
+                  <span>Chalky</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Terrain Type Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Terrain Type</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="terrain" value="plains">
+                  <span class="checkmark"></span>
+                  <span>Plains</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="terrain" value="hills">
+                  <span class="checkmark"></span>
+                  <span>Hills</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="terrain" value="mountains">
+                  <span class="checkmark"></span>
+                  <span>Mountains</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="terrain" value="coastal">
+                  <span class="checkmark"></span>
+                  <span>Coastal</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="terrain" value="desert">
+                  <span class="checkmark"></span>
+                  <span>Desert</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Plant Category Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Plant Category</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="category" value="tree">
+                  <span class="checkmark"></span>
+                  <span>Tree</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="category" value="shrub">
+                  <span class="checkmark"></span>
+                  <span>Shrub</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="category" value="herb">
+                  <span class="checkmark"></span>
+                  <span>Herb</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="category" value="climber">
+                  <span class="checkmark"></span>
+                  <span>Climber</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="category" value="succulent">
+                  <span class="checkmark"></span>
+                  <span>Succulent</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Cycle Type Filter (Maps directly to API) -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Cycle Type</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="cycle" value="perennial">
+                  <span class="checkmark"></span>
+                  <span>Perennial</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="cycle" value="annual">
+                  <span class="checkmark"></span>
+                  <span>Annual</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="cycle" value="biennial">
+                  <span class="checkmark"></span>
+                  <span>Biennial</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Watering Needs Filter (Maps directly to API) -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Watering Needs</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="watering" value="frequent">
+                  <span class="checkmark"></span>
+                  <span>Frequent</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="watering" value="average">
+                  <span class="checkmark"></span>
+                  <span>Average</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="watering" value="minimum">
+                  <span class="checkmark"></span>
+                  <span>Minimum</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="watering" value="none">
+                  <span class="checkmark"></span>
+                  <span>None (Drought Tolerant)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Plant Usage Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Plant Usage</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="usage" value="medicinal">
+                  <span class="checkmark"></span>
+                  <span>Medicinal</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="usage" value="ornamental">
+                  <span class="checkmark"></span>
+                  <span>Ornamental</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="usage" value="edible">
+                  <span class="checkmark"></span>
+                  <span>Edible</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="usage" value="aromatic">
+                  <span class="checkmark"></span>
+                  <span>Aromatic</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="usage" value="poisonous">
+                  <span class="checkmark"></span>
+                  <span>Poisonous</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="usage" value="religious">
+                  <span class="checkmark"></span>
+                  <span>Religious</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Sunlight Requirements Filter (Maps directly to API) -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Sunlight Requirements</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="checkbox" name="sunlight" value="full_sun">
+                  <span class="checkmark"></span>
+                  <span>Full Sun</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="sunlight" value="part_shade">
+                  <span class="checkmark"></span>
+                  <span>Partial Shade</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="sunlight" value="full_shade">
+                  <span class="checkmark"></span>
+                  <span>Full Shade</span>
+                </label>
+                <label class="filter-option">
+                  <input type="checkbox" name="sunlight" value="filtered_shade">
+                  <span class="checkmark"></span>
+                  <span>Filtered Shade</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Rating Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Rating</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <div class="rating-slider">
+                  <input type="range" id="ratingSlider" min="1" max="5" step="0.5" value="1">
+                  <div class="rating-value">
+                    <span id="ratingValue">1</span><span> & above</span>
+                  </div>
+                </div>
+                <div class="rating-stars">
+                  <i class='bx bxs-star'></i>
+                  <i class='bx bxs-star'></i>
+                  <i class='bx bxs-star'></i>
+                  <i class='bx bxs-star'></i>
+                  <i class='bx bxs-star'></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Price Range Filter -->
+            <div class="filter-group">
+              <h3 class="filter-title">
+                <span>Price Range</span>
+                <button class="toggle-filter">
+                  <i class='bx bx-chevron-down'></i>
+                </button>
+              </h3>
+              <div class="filter-options">
+                <div class="price-range">
+                  <div class="price-inputs">
+                    <div class="price-input">
+                      <span>₹</span>
+                      <input type="number" id="minPrice" placeholder="Min" min="0">
+                    </div>
+                    <div class="price-input">
+                      <span>₹</span>
+                      <input type="number" id="maxPrice" placeholder="Max" min="0">
+                    </div>
+                  </div>
+                  <button id="applyPriceFilter" class="apply-price-btn">Apply</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Products Content -->
+        <div class="products-content">
+          <div class="products-header">
+            <div class="products-count">
+              <span id="productCount">0</span> plants found
+              <div class="api-status">
+                <span id="apiStatus" class="api-indicator"></span>
+                <span id="apiStatusText">Checking API status...</span>
+              </div>
+            </div>
+            <div class="products-sort">
+              <label for="sortSelect">Sort by:</label>
+              <select id="sortSelect">
+                <option value="featured">Featured</option>
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="price-asc">Price (Low to High)</option>
+                <option value="price-desc">Price (High to Low)</option>
+                <option value="rating-desc">Rating (High to Low)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="active-filters" id="activeFilters">
+            <!-- Active filters will be added here dynamically -->
+          </div>
+
+          <!-- Add API test results container -->
+          <div class="api-test-results" id="apiTestResults" style="display: none;">
+            <h2>API Connection Test Results</h2>
+            <div id="result"></div>
+            <button id="retryButton" class="btn" style="display: none;">Retry API Connection</button>
+          </div>
+
+          <!-- Products Grid -->
+          <div class="products-grid" id="productsGrid">
+            <!-- Products will be loaded here dynamically -->
+            <div class="loading-spinner">
+              <div class="spinner"></div>
+              <p>Loading plants...</p>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" id="pagination">
+            <!-- Pagination will be added here dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Quick View Modal -->
+  <div class="modal" id="quickViewModal">
+    <div class="modal-content">
+      <button class="close-modal">
+        <i class='bx bx-x'></i>
+      </button>
+      <div class="quick-view-content" id="quickViewContent">
+        <!-- Quick view content will be loaded here dynamically -->
+      </div>
+    </div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="leaf-icon">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+            </svg>
+            <span>Foliage Farm</span>
+          </a>
+          <p>Bringing nature's finest plants from across India to your doorstep. Discover the perfect green companion for your space.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="products.html">Plants</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="current-year">2023</span> Foliage Farm. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Page Transition Overlay -->
+  <div id="pageTransitionOverlay" class="page-transition-overlay"></div>
+
+  <script src="animations.js"></script>
+  <script type="module" src="api-service.js"></script>
+  <script type="module" src="products-script.js"></script>
+  <script src="cart.js"></script>
+  
+  <!-- Enhanced API integration - modified to work with existing styles -->
+  <script type="module">
+    // Enhanced API integration - modified to work with existing styles
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get the API status elements
+      const apiStatus = document.getElementById('apiStatus');
+      const apiStatusText = document.getElementById('apiStatusText');
+      
+      // Function to update API status indicator
+      function updateApiStatus(status) {
+        if (status === 'online') {
+          apiStatus.className = 'api-indicator online';
+          apiStatusText.textContent = 'Using Perenual API';
+          fetchFilteredPlants(); // Fetch plants as soon as API is confirmed online
+        } else if (status === 'offline') {
+          apiStatus.className = 'api-indicator offline';
+          apiStatusText.textContent = 'Using Local Data';
+          // Allow products-script.js to handle local data
+        } else {
+          apiStatus.className = 'api-indicator loading';
+          apiStatusText.textContent = 'Checking API connection...';
+        }
+      }
+      
+      // Initialize with loading state
+      updateApiStatus('loading');
+      
+      // Test the API connection
+      testApiConnection();
+      
+      // Function to test API connection
+      async function testApiConnection() {
+        const API_KEY = 'sk-ooGA67ea26f7677fe9521';
+        const API_ENDPOINT = 'https://perenual.com/api/v2/species-list';
+        
+        try {
+          // Simple API test request
+          const response = await fetch(`${API_ENDPOINT}?key=${API_KEY}&page=1&per_page=1`);
+          
+          if (response.ok) {
+            console.log('API connection successful');
+            updateApiStatus('online');
+            
+            // Dispatch global event for other components
+            window.dispatchEvent(new CustomEvent('api-status-changed', {
+              detail: { status: 'online' }
+            }));
+          } else {
+            console.error('API connection failed');
+            updateApiStatus('offline');
+            
+            // Dispatch global event for other components
+            window.dispatchEvent(new CustomEvent('api-status-changed', {
+              detail: { status: 'offline' }
+            }));
+          }
+        } catch (error) {
+          console.error('API connection test error:', error);
+          updateApiStatus('offline');
+          
+          // Dispatch global event for other components
+          window.dispatchEvent(new CustomEvent('api-status-changed', {
+            detail: { status: 'offline' }
+          }));
+        }
+      }
+      
+      // Fetch plants with API
+      async function fetchFilteredPlants() {
+        const API_KEY = 'sk-ooGA67ea26f7677fe9521';
+        const API_ENDPOINT = 'https://perenual.com/api/v2/species-list';
+        const productsGrid = document.getElementById('productsGrid');
+        const productCount = document.getElementById('productCount');
+        
+        // Show loading state (use existing spinner)
+        productsGrid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p>Loading plants...</p></div>';
+        
+        // Get active filters from checkboxes
+        const filters = {};
+        document.querySelectorAll('.filter-option input:checked').forEach(input => {
+          const type = input.name;
+          const value = input.value;
+          if (!filters[type]) filters[type] = [];
+          filters[type].push(value);
+        });
+        
+        // Build API parameters
+        const params = new URLSearchParams({
+          key: API_KEY,
+          page: 1,
+          per_page: 12
+        });
+        
+        // Map UI filters to API parameters
+        if (filters.environment && filters.environment.includes('indoor')) {
+          params.append('indoor', 1);
+        }
+        
+        if (filters.cycle && filters.cycle.length > 0) {
+          params.append('cycle', filters.cycle.join(','));
+        }
+        
+        if (filters.sunlight && filters.sunlight.length > 0) {
+          // Format: full_sun -> full sun for API
+          const formattedSunlight = filters.sunlight.map(s => s.replace('_', ' '));
+          params.append('sunlight', formattedSunlight.join(','));
+        }
+        
+        if (filters.watering && filters.watering.length > 0) {
+          params.append('watering', filters.watering.join(','));
+        }
+        
+        console.log('Fetching plants with params:', Object.fromEntries(params));
+        
+        try {
+          const response = await fetch(`${API_ENDPOINT}?${params.toString()}`);
+          if (!response.ok) throw new Error(`API error: ${response.status}`);
+          
+          const data = await response.json();
+          
+          if (data && data.data && data.data.length > 0) {
+            displayPlants(data.data, data.total);
+            // Update active filters display using existing function if available
+            if (typeof updateActiveFiltersDisplay === 'function') {
+              updateActiveFiltersDisplay(filters);
+            }
+          } else {
+            productsGrid.innerHTML = `
+              <div class="no-results">
+                <div class="search-icon">🔍</div>
+                <h3>No plants found</h3>
+                <p>Try adjusting your filters or search term</p>
+              </div>
+            `;
+            productCount.textContent = '0';
+          }
+        } catch (error) {
+          console.error('Error fetching plants:', error);
+          productsGrid.innerHTML = `
+            <div class="error-message">
+              <p>Error loading plants: ${error.message}</p>
+              <button class="retry-btn">Retry</button>
+            </div>
+          `;
+          document.querySelector('.retry-btn')?.addEventListener('click', fetchFilteredPlants);
+        }
+      }
+      
+      // Display plants using the site's existing card style
+      function displayPlants(plants, total) {
+        const productsGrid = document.getElementById('productsGrid');
+        const productCount = document.getElementById('productCount');
+        
+        productsGrid.innerHTML = '';
+        productCount.textContent = total || plants.length;
+        
+        plants.forEach(plant => {
+          // Generate random data for display purposes
+          const price = Math.floor(Math.random() * (1500 - 300) + 300);
+          const hasDiscount = Math.random() > 0.6;
+          const originalPrice = hasDiscount ? Math.floor(price * 1.2) : null;
+          const discountPercent = hasDiscount ? Math.floor(Math.random() * 20) + 5 : null;
+          const rating = (Math.random() * 2) + 3; // Rating between 3-5
+          const reviewCount = Math.floor(Math.random() * 100) + 1;
+          const randomStates = ['Gujarat', 'Kerala', 'Tamil Nadu', 'Karnataka', 'Maharashtra'];
+          const randomState = randomStates[Math.floor(Math.random() * randomStates.length)];
+          
+          const card = document.createElement('div');
+          card.className = 'product-card';
+          
+          const imageUrl = plant.default_image?.thumbnail || 'https://source.unsplash.com/random/300x300/?plant';
+          
+          // Create card with structure matching the screenshots
+          card.innerHTML = `
+            ${hasDiscount ? '<div class="product-badge badge-sale">Sale</div>' : ''}
+            <div class="product-image">
+              <img src="${imageUrl}" alt="${plant.common_name || 'Plant'}">
+              <div class="product-actions">
+                <button class="quick-view-btn" data-id="${plant.id}">Quick View</button>
+                <button class="product-action-btn add-to-cart-btn" data-id="${plant.id}">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                </button>
+                <button class="product-action-btn add-to-wishlist-btn" data-id="${plant.id}">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+              </div>
+            </div>
+            <div class="product-info">
+              <div class="product-category">Plant</div>
+              <h3 class="product-title">${plant.common_name || 'Unknown Plant'}</h3>
+              <p class="scientific-name">${plant.scientific_name || ''}</p>
+              <div class="product-rating">
+                ${generateRatingStars(rating)}
+                <span class="rating-count">(${reviewCount})</span>
+              </div>
+              <div class="product-price">
+                <span class="product-current-price">₹${price}</span>
+                ${hasDiscount ? `
+                <span class="product-original-price">₹${originalPrice}</span>
+                <span class="product-discount">-${discountPercent}%</span>` : ''}
+              </div>
+              <div class="product-footer">
+                <div class="product-state">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  ${randomState}
+                </div>
+                <button class="product-add-btn" data-id="${plant.id}">Add</button>
+              </div>
+            </div>
+          `;
+          
+          productsGrid.appendChild(card);
+        });
+        
+        // Setup quickview using existing function if available
+        if (typeof setupQuickViewModal === 'function') {
+          setupQuickViewModal();
+        } else {
+          // Basic quickview implementation
+          document.querySelectorAll('.quick-view-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+              const plantId = this.getAttribute('data-id');
+              // Simple quickview implementation
+              console.log('Quick view for plant ID:', plantId);
+            });
+          });
+        }
+      }
+      
+      // Helper function to generate rating stars
+      function generateRatingStars(rating) {
+        const fullStars = Math.floor(rating);
+        const halfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+        
+        let starsHtml = '';
+        
+        for (let i = 0; i < fullStars; i++) {
+          starsHtml += '<i class="bx bxs-star"></i>';
+        }
+        
+        if (halfStar) {
+          starsHtml += '<i class="bx bxs-star-half"></i>';
+        }
+        
+        for (let i = 0; i < emptyStars; i++) {
+          starsHtml += '<i class="bx bx-star"></i>';
+        }
+        
+        return starsHtml;
+      }
+      
+      // Add event listeners to filter checkboxes to trigger API fetch
+      document.querySelectorAll('.filter-option input').forEach(input => {
+        input.addEventListener('change', function() {
+          if (apiStatus.classList.contains('online')) {
+            fetchFilteredPlants();
+          }
+        });
+      });
+      
+      // Add CSS for no results and to match the styling in the screenshots
+      const style = document.createElement('style');
+      style.textContent = `
+        .no-results {
+          text-align: center;
+          padding: 40px 20px;
+        }
+        
+        .search-icon {
+          font-size: 48px;
+          margin-bottom: 20px;
+        }
+        
+        .no-results h3 {
+          font-size: 24px;
+          color: #374151;
+          margin-bottom: 10px;
+        }
+        
+        .no-results p {
+          color: #6b7280;
+        }
+        
+        .retry-btn {
+          background: #10b981;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 4px;
+          margin-top: 15px;
+          cursor: pointer;
+        }
+        
+        .api-indicator {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          margin-right: 6px;
+        }
+        
+        .api-indicator.online {
+          background-color: #10b981;
+          box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+        }
+        
+        .api-indicator.offline {
+          background-color: #ef4444;
+          box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+        }
+        
+        .api-indicator.loading {
+          background-color: #f59e0b;
+          box-shadow: 0 0 5px rgba(245, 158, 11, 0.5);
+          animation: pulse 1s infinite;
+        }
+        
+        /* Updated card styling to match screenshot */
+        .product-card {
+          position: relative;
+          background-color: #ffffff;
+          color: #ffffff;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .product-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product-image {
+          position: relative;
+          height: 200px;
+          overflow: hidden;
+        }
+        
+        .product-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-image img {
+          transform: scale(1.05);
+        }
+        
+        .product-badge {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          padding: 4px 10px;
+          font-size: 14px;
+          font-weight: 600;
+          border-radius: 4px;
+          z-index: 5;
+        }
+        
+        .badge-sale {
+          background-color: #e11d48;
+          color: white;
+        }
+        
+        .product-actions {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          z-index: 5;
+        }
+        
+        .quick-view-btn {
+          background-color: rgba(255, 255, 255, 0.85);
+          color: #333;
+          border: none;
+          padding: 6px 12px;
+          border-radius: 4px;
+          font-size: 14px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+        
+        .quick-view-btn:hover {
+          background-color: #ffffff;
+        }
+        
+        .product-action-btn {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background-color: rgba(45, 45, 45, 0.85);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          border: none;
+        }
+        
+        .product-action-btn:hover {
+          background-color: rgba(16, 185, 129, 0.9);
+        }
+        
+        .product-info {
+          padding: 16px;
+        }
+        
+        .product-category {
+          font-size: 14px;
+          color: #6b7280;
+          margin-bottom: 6px;
+        }
+        
+        .product-title {
+          font-size: 18px;
+          font-weight: 600;
+          color: #ffffff;
+          margin-bottom: 6px;
+        }
+        
+        .scientific-name {
+          font-style: italic;
+          font-size: 14px;
+          color: #9ca3af;
+          margin-bottom: 10px;
+        }
+        
+        .product-rating {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          margin-bottom: 10px;
+        }
+        
+        .product-rating i {
+          color: #fbbf24;
+          font-size: 16px;
+        }
+        
+        .rating-count {
+          font-size: 14px;
+          color: #9ca3af;
+        }
+        
+        .product-price {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 15px;
+        }
+        
+        .product-current-price {
+          font-size: 20px;
+          font-weight: 600;
+          color: #10b981;
+        }
+        
+        .product-original-price {
+          font-size: 16px;
+          color: #9ca3af;
+          text-decoration: line-through;
+        }
+        
+        .product-discount {
+          font-size: 14px;
+          color: #ef4444;
+        }
+        
+        .product-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          padding-top: 12px;
+        }
+        
+        .product-state {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: #9ca3af;
+          font-size: 14px;
+        }
+        
+        .product-state svg {
+          color: #10b981;
+        }
+        
+        .product-add-btn {
+          background-color: #10b981;
+          color: white;
+          border: none;
+          padding: 6px 15px;
+          border-radius: 6px;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+        
+        .product-add-btn:hover {
+          background-color: #059669;
+        }
+        
+        @keyframes pulse {
+          0% { opacity: 0.6; }
+          50% { opacity: 1; }
+          100% { opacity: 0.6; }
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>
